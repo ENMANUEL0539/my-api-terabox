@@ -49,7 +49,7 @@ app.get('/api/preview', async (req, res) => {
       success: true,
       title,
       description,
-      image: image || 'https://via.placeholder.com/600x400.png?text=Preview+No+Disponible' // Imagen por defecto
+      image: image || 'https://1024terabox.com/s/1VUHsbwXsOt7vz1VhH2sIAA' // Imagen por defecto
     });
 
   } catch (error) {
