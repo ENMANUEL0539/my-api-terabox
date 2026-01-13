@@ -1,19 +1,16 @@
-// Este código NO va en tu proyecto web. Va en un servicio como Vercel o Render.
+const express = require('express');
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 
-export default async function handler(req, res) {
-  // Habilita CORS para que tu frontend pueda llamar a este backend
+const app = express();
+const port = process.env.PORT || 3000;
+
+// El endpoint de tu API
+app.get('/api/preview', async (req, res) => {
+  // Habilita CORS para que cualquier web pueda llamar a tu API
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
     const url = req.query.url;
@@ -52,7 +49,7 @@ export default async function handler(req, res) {
       success: true,
       title,
       description,
-      image: image || '/assets/img/placeholder.jpg'
+      image: image || 'https://via.placeholder.com/600x400.png?text=Preview+No+Disponible' // Imagen por defecto
     });
 
   } catch (error) {
@@ -63,4 +60,7 @@ export default async function handler(req, res) {
       message: error.message
     });
   }
-}
+});
+
+// Inicia el servidor
+app.listen(port, () => console.log(`API listening on port ${port}`));
